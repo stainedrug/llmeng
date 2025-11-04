@@ -120,6 +120,7 @@ view = gr.Interface(
     title="GPT", 
     inputs=[message_input], 
     outputs=[message_output], 
+    #these are clickable examples that will show up in the interface.
     examples=[
         "Explain the Transformer architecture to a layperson",
         "Explain the Transformer architecture to an aspiring AI engineer",
@@ -143,6 +144,7 @@ def stream_gpt(prompt):
     for chunk in stream:
         result += chunk.choices[0].delta.content or ""
         yield result
+    #REMINDER yield is a shorthand for a generator function. ie: for chunk in stream_gpt(prompt)
 
 def stream_claude(prompt):
     messages = [
