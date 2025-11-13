@@ -26,12 +26,13 @@ def get_ticket_price(city):
     print(f"DATABASE TOOL CALLED: Getting price for {city}", flush=True)
     with sqlite3.connect(DB) as conn:
         cursor = conn.cursor()
-        pattern = f"{city}, %"
+        pattern = f"{city}%"
         cursor.execute("""
-        SELECT destination, airport_code,
-        FROM flights
-        WHERE destination LIKE ?
-        """, (pattern,))
+            SELECT destination, airport_code, price
+            FROM flights
+            WHERE airport_code LIKE ? 
+            OR destination LIKE ?
+        """, (pattern, pattern))
         result = cursor.fetchone()
         print(result)
         return f"Ticket price to {city} is ${result[2]}" if result else "No price data available for this city"
